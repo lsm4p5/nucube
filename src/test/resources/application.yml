@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/jpashop
+#    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  messages:
+    basename: messages,errors
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+
+logging.level:
+  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+    include:
+      exception: true
+      message: always
+      stacktrace: on_param
+      binding:
+        errors: on_param
+
+
+  
+basePackage: uplus.nucube
+
+#spring.main.allow-circular-references=true

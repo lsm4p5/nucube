@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<STYLE TYPE="text/css">table {font-size: 7pt;}</STYLE>
+
+<body>
+
+    <p>빈으로 호출되는 함수의 정보 및 빈 정보 표시 </p>
+    <th:block th:each = "aopinfo : ${singleAopInfo}">  <!-- Iterate through shops -->
+        <table border="1" >
+            <tr>
+                <td> id </td>
+                <td> uuid </td>
+                <td> level </td>
+                <td> 수행시간 </td>
+                <td> 클래스종류 </td>
+                <td> 클래스이름 </td>
+                <td> 함수이름 </td>
+                <td> 리턴타입 </td>
+                <td> 예외클래스 </td>
+                <td> 예외메시지 </td>
+                <td> 빈오브젝트 </td>
+                <td> 빈Annotation </td>
+            </tr>
+            <tr>
+            <td th:text="${aopinfo.id}"> id </td>
+            <td th:text="${aopinfo.uuid}"> uuid </td>
+            <td th:text="${aopinfo.level}"> level </td>
+            <td th:text="${aopinfo.durationTimeMs}"> durationTimeMs </td>
+            <td th:text="${aopinfo.classKinds}"> classKinds </td>
+            <td th:text="${aopinfo.functionClassSimpleName}"> functionClassSimpleName </td>
+            <td th:text="${aopinfo.functionName}"> functionName </td>
+            <td th:text="${aopinfo.returnTypeName}"> returnTypeName </td>
+            <td th:text="${aopinfo.exceptionClass}"> exceptionClass </td>
+            <td th:text="${aopinfo.exceptionMessage}"> exceptionMessage </td>
+            <td th:text="${aopinfo.classObject}"> classObject </td>
+            <td th:text="${aopinfo.functionClassAnnotation}"> functionClassAnnotation </td>
+            </tr>
+        </table>
+        <th:block th:each = "field : ${aopinfo.classFields}">
+            <table border="1">
+                <tr>
+                    <td>depth-next_depth</td>
+                    <td>fullName</td>
+                    <td>fieldName</td>
+                    <td>field 값</td>
+                    <td>fieldAnnotation</td>
+                </tr>
+                <tr>
+                    <td th:text="|${field.depth} - ${field.next_depth}|"</td>
+                    <td th:text="${field.fieldTypeFullName}"</td>
+                    <td th:text="${field.fieldVariable}"</td>
+                    <td th:text="${field.fieldObject}"</td>
+                    <td th:text="${field.fieldAnnotation}"</td>
+                </tr>
+            </table>
+        </th:block>
+        <th:block th:each = "input : ${aopinfo.inputMetaEntities}">
+            <br>
+            <table border="1">
+                <tr>
+                    <td>id</td>
+                    <td>uuid</td>
+                    <td>함수인자종류</td>
+                    <td>함수인자클래스</td>
+                    <td>함수인자심플클래스</td>
+                    <td>함수인자변수병</td>
+                    <td>함수클래스오브젝트</td>
+
+                </tr>
+
+                <tr>
+                    <td th:text="${input.id}"></td>
+                    <td th:text="${input.uuid}"></td>
+                    <td th:text="${input.inputKinds}"></td>
+                    <td th:text="${input.classTypeName}"></td>
+                    <td th:text="${input.simpleTypeName}"></td>
+                    <td th:text="${input.variable}"></td>
+                    <td th:text="${input.inputObject}"></td>
+                </tr>
+            </table>
+            <table border="1">
+                <tr>
+                    <td>depth-next_depth</td>
+                    <td>fullName</td>
+                    <td>fieldName</td>
+                    <td>field 값</td>
+                    <td>fieldAnnotation</td>
+                </tr>
+                <tr th:each = "field : ${input.fields}">
+                    <td th:text="|${field.depth} - ${field.next_depth}|"</td>
+                    <td th:text="${field.fieldTypeFullName}"</td>
+                    <td th:text="${field.fieldVariable}"</td>
+                    <td th:text="${field.fieldObject}"</td>
+                    <td th:text="${field.fieldAnnotation}"</td>
+                </tr>
+
+            </table>
+        </th:block>
+
+
+
+        <th:block th:each = "output : ${aopinfo.outputMetaEntities}">
+            <br>
+        <table border="1">
+            <tr>
+                <td>id</td>
+                <td>uuid</td>
+                <td>리턴종류</td>
+                <td>리턴클래스</td>
+                <td>리턴심플클래스</td>
+                <td>리턴변수</td>
+                <td>리턴값</td>
+
+            </tr>
+                <tr>
+                    <td th:text="${output.id}"></td>
+                    <td th:text="${output.outputKinds}"></td>
+                    <td th:text="${output.classTypeName}"></td>
+                    <td th:text="${output.simpleTypeName}"></td>
+                    <td th:text="${output.variable}"></td>
+                    <td th:text="${output.outputObject}"></td>
+                </tr>
+            </table>
+            <table border="1">
+                <tr>
+                    <td>depth-next_depth</td>
+                    <td>fullName</td>
+                    <td>fieldName</td>
+                    <td>field 값</td>
+                    <td>fieldAnnotation</td>
+                </tr>
+                <tr th:each = "field : ${output.fields}">
+                    <td th:text="|${field.depth} - ${field.next_depth}|"</td>
+                    <td th:text="${field.fieldTypeFullName}"</td>
+                    <td th:text="${field.fieldVariable}"</td>
+                    <td th:text="${field.fieldObject}"</td>
+                    <td th:text="${field.fieldAnnotation}"</td>
+                </tr>
+
+        </table>
+
+        </th:block>
+
+
+    </th:block>
+
+
+
+</body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/trace/" + id + "/query");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>

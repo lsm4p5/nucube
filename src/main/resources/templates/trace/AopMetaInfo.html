@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<STYLE TYPE="text/css">table {font-size: 7pt;}</STYLE>
+
+<body>
+
+<div>
+    <div>
+        <form th:object="${traceSearch}" class="form-inline">
+            <div class="form-group mb-2">
+                <input type="text" th:field="*{reqDate}" class="form-control" placeholder="날짜"/>
+                <input type="text" th:field="*{uuid}" class="form-control" placeholder="UUID"/>
+                <input type="text" th:field="*{domainName}" class="form-control" placeholder="도메인네임"/>
+                <input type="text" th:field="*{viewId}" class="form-control" placeholder="화면-ID"/>
+                <input type="text" th:field="*{apiId}" class="form-control" placeholder="API-ID"/>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">검색</button>
+        </form>
+    </div>
+</div>
+
+<table border="1" >
+    <caption>Transaction 전체 조회</caption>
+    <tr>
+        <th scope="col" >생성날짜</th>
+        <th scope="col" >UUID</th>
+        <th scope="col" >도메인-ID</th>
+        <th scope="col" >화면-ID</th>
+        <th scope="col" >API-ID</th>
+
+    </tr>
+    <th:block th:each = "traceData : ${traceDataInfo}">  <!-- Iterate through shops -->
+    <tr>
+        <td th:text="${traceData.createdDate}">2021222</td>
+        <td th:text="${traceData.id}">0000000</td>
+        <td th:text="${traceData.domainId}">iiiiii</td>
+        <td th:text="${traceData.viewId}" >aaaaaa</td>
+        <td th:text="${traceData.apiId}" ><tbale>
+            <tr>
+                 <th scope="col" > </th>
+                 <th scope="col" > </th>
+                 <th scope="col" >Level</th>
+                 <th scope="col" >빈이름</th>
+                 <th scope="col" >빈함수</th>
+                 <th scope="col" >빈함수에러매시지</th>
+                 <th scope="col" >함수반환타입</th>
+                 <th scope="col" >빈클래스유형</th>
+                 <th scope="col" >함수Arg</th>
+            </tr>
+            <th:block th:each = "traceEntity : ${traceData.traceEntities}">
+            <tr>
+
+                <td></td>
+                <td>
+                    <a href="#" th:href="@{/trace/{id}/{level}/{function} (id=${traceData.id},level=${traceEntity.level},function=${traceEntity.FunctionName})}" class="btn btn-primary" role="button">상세조회</a>
+                </td>
+                <td th:text="${traceEntity.level}">level</td>
+                <td th:text="${traceEntity.singleClassName}">빈이름</td>
+                <td th:text="${traceEntity.FunctionName}">빈함수</td>
+                <td th:text="${traceEntity.exceptionMessage}">에러</td>
+                <td th:text="${traceEntity.returnType}">함수리턴</td>
+                <td th:text="${traceEntity.classKinds}">클래스유형</td>
+
+                <th:block th:each = "arg : ${traceEntity.args}">
+
+                <td th:text="|${arg.simpleArgClass}, ${arg.argVariable},${arg.simpleArgObject}|" ><font size="1"> 함수Agg</font></td>
+
+                </th:block>
+            </tr>
+            </th:block>
+            </tbale>
+        </td>
+    </tr>
+    </th:block>
+
+</table>
+
+</body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/trace/" + id + "/query");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>

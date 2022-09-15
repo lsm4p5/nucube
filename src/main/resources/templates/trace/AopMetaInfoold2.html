@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<STYLE TYPE="text/css">{font-size: 7pt;}</STYLE>
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+
+    <th:block th:each = "traceData : ${traceDataInfo}">  <!-- Iterate through shops -->
+        <p th:text = "|(UUID:${traceData.id}) (생성날짜:${traceData.createdDate})  (도메인:${traceData.domainId}) (화면:${traceData.viewId}) (API:${traceData.apiId})|">ID</p>
+        <ul>
+            <!-- Iterate through coffeeOptions -->
+            <th:block th:each = "traceEntity : ${traceData.traceEntities}">
+                <li th:text="|(순서 : ${traceEntity.level}) (호출빈 : ${traceEntity.singleClassName}) (호출함수 : ${traceEntity.FunctionName}) (returnType : ${traceEntity.returnType})|"></li>
+                <li th:text="|(exceptionMsg : ${traceEntity.exceptionMessage}) (exceptionClass : ${traceEntity.exceptionClass})|"></li>
+                <li th:text="|(Object : ${traceEntity.ClassObject}) (returnObject : ${traceEntity.outputObject})|"></li>
+                <li th:text="|(Annotation : ${traceEntity.annotation}) |"></li>
+                <th:block th:each = "arg : ${traceEntity.args}">
+                    <p th:text="| ==> (함수Argument : ${arg.simpleArgClass}.${arg.argVariable}.${arg.simpleArgObject})|"></p>
+                </th:block>
+            </th:block>
+        </ul>
+    </th:block>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/trace/" + id + "/query");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>

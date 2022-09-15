@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<STYLE TYPE="text/css">table {font-size: 7pt;}</STYLE>
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+            <table class="table table-striped">
+
+                <tr>
+                    <td>UUID</td>
+                    <td>날짜</td>
+                    <td>도메인네임</td>
+                    <td>화면_ID</td>
+                    <td>API_ID</td>
+                </tr>
+                <th:block th:each = "traceData : ${traceDataInfo}">  <!-- Iterate through shops -->
+                    <tr>
+                        <td th:text = "${traceData.id}"></td>
+                        <td th:text = "${traceData.createdDate}"></td>
+                        <td th:text = "${traceData.domainName}"></td>
+                        <td th:text = "${traceData.viewId}"></td>
+                        <td th:text = "${traceData.apiId}"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><table  class="table table-striped" >
+                            <tr>
+                                <td>Level</td>
+                                <td>className</td>
+                            </tr>
+                            <th:block th:each = "traceEntity : ${traceData.traceEntities}">
+                            <tr>
+                                <td th:text = "${traceEntity.level}"></td>
+                                <td th:text = "${traceEntity.singleClassName}"></td>
+                            </tr>
+                                <th:block th:each = "arg : ${traceEntity.args}">
+                                    <tr>
+                                        <td></td>
+                                        <td><table  class="table table-striped">
+                                            <tr>
+                                                <td>argClass</td>
+                                            </tr>
+                                            <tr>
+                                                <td th:text = "${arg.simpleArgClass}" ></td>
+                                            </tr>
+                                        </table></td>
+                                    </tr>
+                                    
+                                </th:block>
+                            </th:block>
+                        </table></td>
+                    </tr>
+                </th:block>
+
+
+        </table>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/trace/" + id + "/query");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>
